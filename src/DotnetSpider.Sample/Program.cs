@@ -2,6 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DotnetSpider.Sample.samples;
+using DotnetSpider.Scheduler;
+using DotnetSpider.Scheduler.Component;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
@@ -28,7 +31,15 @@ namespace DotnetSpider.Sample
 			// // await DistributedSpider.RunAsync();
 			// await ProxySpider.RunAsync();
 			// await EntitySpider.RunMySqlQueueAsync();
-			await ImageSpider.RunAsync();
+			var builder = Builder.CreateDefaultBuilder<GithubSpider>(options =>
+			{
+				// 每秒 1 个请求
+				options.Speed = 1;
+			});
+			builder.UseSerilog();
+			builder.UseQueueDistinctBfsScheduler<HashSetDuplicateRemover>();
+			await builder.Build().RunAsync();
+			//await ImageSpider.RunAsync();
 
 			Console.WriteLine("Bye!");
 		}
