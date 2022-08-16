@@ -31,15 +31,15 @@ namespace DotnetSpider.Sample
 			// // await DistributedSpider.RunAsync();
 			// await ProxySpider.RunAsync();
 			// await EntitySpider.RunMySqlQueueAsync();
-			var builder = Builder.CreateDefaultBuilder<GithubSpider>(options =>
-			{
-				// 每秒 1 个请求
-				options.Speed = 1;
-			});
-			builder.UseSerilog();
-			builder.UseQueueDistinctBfsScheduler<HashSetDuplicateRemover>();
-			await builder.Build().RunAsync();
-			//await ImageSpider.RunAsync();
+			//var builder = Builder.CreateDefaultBuilder<GithubSpider>(options =>
+			//{
+			//	// 每秒 1 个请求
+			//	options.Speed = 1;
+			//});
+			//builder.UseSerilog();
+			//builder.UseQueueDistinctBfsScheduler<HashSetDuplicateRemover>();
+			//await builder.Build().RunAsync();
+			await ImageSpider.RunAsync();
 
 			Console.WriteLine("Bye!");
 		}
